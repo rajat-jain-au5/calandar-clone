@@ -26,7 +26,6 @@ class App extends React.Component {
               <Redirect to="/" />
             )}
             <Link to="/">
-              <Redirect to="/calendar" />
             </Link>
             <Link to="/calendar">
               <Redirect to="/calendar" />
