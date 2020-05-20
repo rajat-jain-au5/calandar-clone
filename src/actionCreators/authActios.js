@@ -9,7 +9,10 @@ export const loadUser = () => (dispatch, getState) => {
   //get token
 
   axios
-    .get("/user", tokenConfig(getState))
+    .get(
+      "https://tranquil-spire-77716.herokuapp.com/user",
+      tokenConfig(getState)
+    )
 
     .then((res) => {
       //     console.log(res)
@@ -54,7 +57,7 @@ export function registerUser(user) {
 export function loginUser(user) {
   let request = axios({
     method: "POST",
-    url: "/login",
+    url: "https://tranquil-spire-77716.herokuapp.com/login",
     data: user,
   });
   return (dispatch) => {
