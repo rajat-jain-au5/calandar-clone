@@ -28,7 +28,6 @@ class App extends React.Component {
             <Link to="/">
             </Link>
             <Link to="/calendar">
-              <Redirect to="/calendar" />
             </Link>
           </Fragment>
         </BrowserRouter>
