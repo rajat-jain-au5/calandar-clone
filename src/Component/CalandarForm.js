@@ -1,52 +1,60 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Button from "react-bootstrap/Button";
+import { bindActionCreators } from "redux";
 import {
   addCalendar,
   editCalendar,
   getCalendar,
   deleteCalendar,
 } from "../actionCreators/calandarActions";
-const buttonStyle = { marginRight: 10 };
-function CalendarForm({ setInitializedFalse, calendarEvent, onCancel, edit }) {
-  const [start, setStart] = useState(null);
-  const [end, setEnd] = useState(null);
-  const [title, setTitle] = useState("");
-  const [id, setId] = useState(null);
-  useEffect(() => {
-    setTitle(calendarEvent.title);
-    setStart(calendarEvent.start);
-    setEnd(calendarEvent.end);
-    setId(calendarEvent._id);
-  }, [
-    calendarEvent.title,
-    calendarEvent.start,
-    calendarEvent.end,
-    calendarEvent._id,
-  ]);
+import { connect } from "react-redux";
 
-  const handleStartChange = (date) => setStart(date);
-  const handleEndChange = (date) => setEnd(date);
-  const handleTitleChange = (ev) => setTitle(ev.target.value);
-  const deleteCalendarEvent = async () => {
-    await deleteCalendar(id);
-    const response = await getCalendar();
-    // eslint-disable-next-line
-    const evs = response.data.map((d) => {
-      return {
-        ...d,
-        start: new Date(d.start),
-        end: new Date(d.end),
-      };
+class CalendarForm extends React.Component {
+  state = {
+    start: null,
+    end: null,
+    title: "",
+    id: null
+  };
+  componentDidMount = () => {
+    this.setState({
+      title: this.props.calendarEvent.title,
+      start: this.props.calendarEvent.start,
+      end: this.props.calendarEvent.end,
+      id: this.props.calendarEvent._id,
     });
-    setInitializedFalse();
-    onCancel();
   };
 
-  const submitCalendarEvent = async () => {
+  handleStartChange = (date) => {
+    this.setState({ start: date });
+  };
+  handleEndChange = (date) => {
+    this.setState({ end: date });
+  };
+  handleTitleChange = (ev) => this.setState({ title: ev.target.value });
+  deleteCalendarEvent = (id) => {
+    // console.log(id);
+    // 
+    this.props.deleteCalendar(id);
+    
+      // this.props.calandar.allevents.map((d) => {
+      //   return {
+      //     ...d,
+      //     start: new Date(d.start),
+      //     end: new Date(d.end),
+      //   };
+      // });
+    this.props.setInitializedFalse();
+    this.props.onCancel();
+  
+  };
+  submitCalendarEvent = (e) => {
+    e.preventDefault();
+    const { id, title, start, end } = this.state;
     if (!title || !start || !end) {
       return;
     }
@@ -60,76 +68,96 @@ function CalendarForm({ setInitializedFalse, calendarEvent, onCancel, edit }) {
       start,
       end,
     };
-    if (!edit) {
-      await addCalendar(data);
-      
+    if (!this.props.edit) {
+      this.props.addCalendar(data);
     } else {
-      await editCalendar(data);
+      this.props.editCalendar(data);
+
     }
     // console.log("coming coming");
-    setInitializedFalse();
-    const response = await getCalendar();
-    // eslint-disable-next-line
-    const evs = response.data.map((d) => {
-      return {
-        ...d,
-        start: new Date(d.start),
-        end: new Date(d.end),
-      };
-    });
-    onCancel();
+    this.props.setInitializedFalse();
+   this.props.onCancel()
   };
 
-  return (
-    <Form noValidate>
-      <Form.Row>
-        <Form.Group as={Col} md="12" controlId="title">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
-            type="text"
-            name="title"
-            placeholder="Title"
-            value={title || ""}
-            onChange={handleTitleChange}
-            isInvalid={!title}
-          />
-          <Form.Control.Feedback type="invalid">{!title}</Form.Control.Feedback>
-        </Form.Group>
-      </Form.Row>
-      <Form.Row>
-        <Form.Group as={Col} md="12" controlId="start">
-          <Form.Label>Start</Form.Label>
-          <br />
-          <DatePicker
-            showTimeSelect
-            className="form-control"
-            selected={start}
-            onChange={handleStartChange}
-          />
-        </Form.Group>
-      </Form.Row>
-      <Form.Row>
-        <Form.Group as={Col} md="12" controlId="end">
-          <Form.Label>End</Form.Label>
-          <br />
-          <DatePicker
-            showTimeSelect
-            className="form-control"
-            selected={end}
-            onChange={handleEndChange}
-          />
-        </Form.Group>
-      </Form.Row>
-      <Button type="submit" style={buttonStyle} onClick={submitCalendarEvent}>
-        Save
-      </Button>
-      <Button type="button" style={buttonStyle} onClick={deleteCalendarEvent}>
-        Delete
-      </Button>
-      <Button type="button" onClick={onCancel}>
-        Cancel
-      </Button>
-    </Form>
-  );
+  render() {
+ 
+    const { calendarEvent, onCancel } = this.props;
+    return (
+      <div>
+        <Form noValidate onSubmit={(e) => this.submitCalendarEvent(e)}>
+          <Form.Row>
+            <Form.Group as={Col} md="12" controlId="title">
+              <Form.Label>Title</Form.Label>
+              <Form.Control
+                type="text"
+                name="title"
+                placeholder="Title"
+                value={this.state.title || ""}
+                onChange={this.handleTitleChange}
+                isInvalid={!this.state.title}
+              />
+              <Form.Control.Feedback type="invalid">
+                {!this.state.title}
+              </Form.Control.Feedback>
+            </Form.Group>
+          </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col} md="12" controlId="start">
+              <Form.Label>Start</Form.Label>
+              <br />
+              <DatePicker
+                showTimeSelect
+                className="form-control"
+                selected={this.state.start}
+                onChange={this.handleStartChange}
+              />
+            </Form.Group>
+          </Form.Row>
+          <Form.Row>
+            <Form.Group as={Col} md="12" controlId="end">
+              <Form.Label>End</Form.Label>
+              <br />
+              <DatePicker
+                showTimeSelect
+                className="form-control"
+                selected={this.state.end}
+                onChange={this.handleEndChange}
+              />
+            </Form.Group>
+          </Form.Row>
+          {this.props.edit === true ? (
+            <Button type="submit" style={{ marginRight: 10 }}>
+              Edit
+            </Button>
+          ) : (
+            <Button type="submit" style={{ marginRight: 10 }}>
+              Save
+            </Button>
+          )}
+
+          <Button
+            type="submit"
+            style={{ marginRight: 10 }}
+            onClick={() => this.deleteCalendarEvent(calendarEvent._id)}
+          >
+            Delete
+          </Button>
+          <Button type="button" onClick={onCancel}>
+            Cancel
+          </Button>
+        </Form>
+      </div>
+    );
+  }
 }
-export default CalendarForm;
+
+const mapStateToProps = (state) => {
+  return state;
+};
+const mapDispatchToProps = (dispatch) => {
+  return bindActionCreators(
+    { addCalendar, editCalendar, deleteCalendar,getCalendar },
+    dispatch
+  );
+};
+export default connect(mapStateToProps, mapDispatchToProps)(CalendarForm);

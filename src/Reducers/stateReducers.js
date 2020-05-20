@@ -26,8 +26,7 @@ export default function (state = intialState, action) {
     case "REGISTER_SUCCESS":
      
       localStorage.setItem("name", action.payload.user.name);
-      //     localStorage.setItem("isLogin", true);
-      // console.log(action.payload)
+      
       return {
         ...state,
         ...action.payload.user,
