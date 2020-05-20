@@ -62,6 +62,7 @@ function CalendarForm({ setInitializedFalse, calendarEvent, onCancel, edit }) {
     };
     if (!edit) {
       await addCalendar(data);
+      this.prop.history.push("/calendar");
     } else {
       await editCalendar(data);
     }
