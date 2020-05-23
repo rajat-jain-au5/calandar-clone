@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Link} from "react-router-dom";
+import { Link,Redirect} from "react-router-dom";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import { bindActionCreators } from "redux";
 import { registerUser, loginUser } from "../actionCreators/authActios";
@@ -80,7 +80,9 @@ class Register extends Component {
     });
   };
   render() {
-
+ if (localStorage.getItem("token")) {
+   return <Redirect to="/calendar" />;
+ }
     return (
       <div className="register">
           <nav class="navbar navbar-expand-md  navbar-dark sticky-top overlay">

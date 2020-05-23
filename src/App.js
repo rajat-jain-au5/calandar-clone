@@ -20,11 +20,7 @@ class App extends React.Component {
           <Fragment>
             <Route path="/calendar" exact component={Calandar} />
             <Route path="/" exact component={Register} />
-            {localStorage.getItem("token") ? (
-              <Redirect to="/calendar" />
-            ) : (
-              <Redirect to="/" />
-            )}
+
             <Link to="/">
             </Link>
             <Link to="/calendar">

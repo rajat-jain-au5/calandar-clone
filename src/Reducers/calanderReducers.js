@@ -9,7 +9,8 @@ export default function (state = intialState, action) {
     case "GET_EVENTS":
     case "ADD_EVENTS":
       stateCopy.allevents = action.payload;
-      console.log(stateCopy.allevents)
+      stateCopy.redirect=true
+      // console.log(stateCopy.allevents)
       return stateCopy;
     case "UPDATE_POST":
       stateCopy.redirect = true;
@@ -18,7 +19,7 @@ export default function (state = intialState, action) {
       stateCopy.allevents = stateCopy.allevents.filter(
         (el) => el._id !== action.payload.data
       );
-      stateCopy.redirect = true;
+      // stateCopy.redirect = true;
       console.log(stateCopy);
       return stateCopy;
 

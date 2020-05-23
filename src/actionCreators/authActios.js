@@ -33,7 +33,7 @@ export function registerUser(user) {
   console.log(user);
   let request = axios({
     method: "POST",
-    url: "/register",
+    url: "https://tranquil-spire-77716.herokuapp.com/register",
     data: user,
   });
   return (dispatch) => {
@@ -88,7 +88,7 @@ export function logoutUser() {
 
 export const tokenConfig = (getState) => {
   const token = getState().auth.token;
-  // console.log(token, "g", getState(), "t", token);
+ 
 
   //headers
   const config = {

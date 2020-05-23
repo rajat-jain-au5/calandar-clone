@@ -4,7 +4,7 @@ import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Modal from "react-bootstrap/Modal";
 import CalendarForm from "./CalandarForm";
-import { Link,Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { getCalendar } from "../actionCreators/calandarActions";
 import { connect } from "react-redux";
@@ -43,10 +43,7 @@ class Calandar extends React.Component {
     });
   }
 
-  //  if (prevProps.calandar.allevents !== this.state.events) {
-  //    this.setState({ events: this.props.calandar.allevents });
-  //  }
-
+  
   hideModals = () => {
     this.setState({
       showAddModal: false,
@@ -90,10 +87,7 @@ class Calandar extends React.Component {
     localStorage.removeItem("token");
   };
   render() {
-    // console.log(this.props.calandar.allevents);
-    // if (this.props.calandar.redirect === true) {
-    //   window.location.href = "/calendar";
-    // }
+    
     return (
       <div>
         <nav class="navbar navbar-expand-md  navbar-dark sticky-top overlay1">
@@ -145,7 +139,6 @@ class Calandar extends React.Component {
           </Modal.Header>
           <Modal.Body>
             <CalendarForm
-              // calendarStore={calendarStore}
               calendarEvent={this.state.calendarEvent}
               setInitializedFalse={this.setInitializedFalse}
               onCancel={this.hideModals}

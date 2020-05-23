@@ -12,6 +12,7 @@ import {
   deleteCalendar,
 } from "../actionCreators/calandarActions";
 import { connect } from "react-redux";
+// import { Redirect } from "react-router-dom";
 
 class CalendarForm extends React.Component {
   state = {
@@ -41,13 +42,7 @@ class CalendarForm extends React.Component {
     // 
     this.props.deleteCalendar(id);
     
-      // this.props.calandar.allevents.map((d) => {
-      //   return {
-      //     ...d,
-      //     start: new Date(d.start),
-      //     end: new Date(d.end),
-      //   };
-      // });
+    
     this.props.setInitializedFalse();
     this.props.onCancel();
   
@@ -70,9 +65,10 @@ class CalendarForm extends React.Component {
     };
     if (!this.props.edit) {
       this.props.addCalendar(data);
+      
     } else {
       this.props.editCalendar(data);
-
+      
     }
     // console.log("coming coming");
     this.props.setInitializedFalse();
@@ -82,6 +78,7 @@ class CalendarForm extends React.Component {
   render() {
  
     const { calendarEvent, onCancel } = this.props;
+    
     return (
       <div>
         <Form noValidate onSubmit={(e) => this.submitCalendarEvent(e)}>
