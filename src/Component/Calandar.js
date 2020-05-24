@@ -16,6 +16,7 @@ class Calandar extends React.Component {
     showEditModal: false,
     calendarEvent: {},
     initialized: false,
+    events: [],
   };
 
   componentDidMount() {

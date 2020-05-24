@@ -8,7 +8,7 @@ import { loadUser } from "./actionCreators/authActios";
 
 
 import store from "./Reducers";
-import { BrowserRouter, Route, Link,Redirect} from 'react-router-dom';
+import { BrowserRouter, Route, Link} from 'react-router-dom';
 class App extends React.Component {
   componentDidMount = () => {
     store.dispatch(loadUser());
