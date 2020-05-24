@@ -16,8 +16,8 @@ class Calandar extends React.Component {
     showEditModal: false,
     calendarEvent: {},
     initialized: false,
-    events: [],
-  };
+  }
+
   componentDidMount() {
     const response = axios({
       method: "GET",
@@ -36,14 +36,10 @@ class Calandar extends React.Component {
           end: new Date(d.end),
         };
       });
-      // console.log(evs);
-      this.setState({ events: evs, initialized: true }, () =>
-        console.log(this.state.events)
-      );
+    
     });
   }
 
-  
   hideModals = () => {
     this.setState({
       showAddModal: false,
@@ -76,18 +72,10 @@ class Calandar extends React.Component {
       calendarEvent: data,
     });
   };
-  componentDidUpdate = (prevProps, prevState) => {
-    console.log(prevProps, "p", prevState);
-    if (prevProps.calandar.allevents !== this.state.events) {
-           return  this.setState({events:this.props.calandar.allevents})
-    }
-   
-  };
   logoutUser = () => {
     localStorage.removeItem("token");
   };
   render() {
-    
     return (
       <div>
         <nav class="navbar navbar-expand-md  navbar-dark sticky-top overlay1">
@@ -148,7 +136,7 @@ class Calandar extends React.Component {
         </Modal>
         <Calendar
           localizer={localizer}
-          events={this.state.events}
+          events={this.props.calandar.allevents}
           startAccessor="start"
           endAccessor="end"
           selectable={true}
@@ -162,7 +150,7 @@ class Calandar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  return state
 };
 const mapDispatchToProps = (dispatch) => {
   return bindActionCreators({ getCalendar }, dispatch);

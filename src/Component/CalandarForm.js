@@ -12,7 +12,6 @@ import {
   deleteCalendar,
 } from "../actionCreators/calandarActions";
 import { connect } from "react-redux";
-// import { Redirect } from "react-router-dom";
 
 class CalendarForm extends React.Component {
   state = {
@@ -38,8 +37,7 @@ class CalendarForm extends React.Component {
   };
   handleTitleChange = (ev) => this.setState({ title: ev.target.value });
   deleteCalendarEvent = (id) => {
-    // console.log(id);
-    // 
+  
     this.props.deleteCalendar(id);
     
     

@@ -177,8 +177,7 @@ class Register extends Component {
 
                 <li className="nav-item">
                   <Link
-                    className="nav-link text-dark "
-                    // href="/login"
+                    className="nav-link text-dark"
                     onClick={this.handleShowLogin}
                   >
                     <span className="fas fa-sign-in-alt"></span> Login

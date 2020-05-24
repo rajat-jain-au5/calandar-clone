@@ -9,11 +9,12 @@ export default function (state = intialState, action) {
     case "GET_EVENTS":
     case "ADD_EVENTS":
       stateCopy.allevents = action.payload;
-      stateCopy.redirect=true
+
       // console.log(stateCopy.allevents)
       return stateCopy;
     case "UPDATE_POST":
-      stateCopy.redirect = true;
+      
+      stateCopy.allevents=action.payload
       return stateCopy;
     case "Event_delete":
       stateCopy.allevents = stateCopy.allevents.filter(
