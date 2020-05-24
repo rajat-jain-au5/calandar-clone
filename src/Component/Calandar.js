@@ -16,7 +16,7 @@ class Calandar extends React.Component {
     showEditModal: false,
     calendarEvent: {},
     initialized: false,
-  }
+  };
 
   componentDidMount() {
     const response = axios({
@@ -36,10 +36,15 @@ class Calandar extends React.Component {
           end: new Date(d.end),
         };
       });
-    
+      this.setState({ events: evs, initialized: true });
     });
   }
-
+  componentDidUpdate = (prevProps, prevState) => {
+    // console.log(prevProps, "p", prevState);
+    if (prevProps.calandar.allevents !== this.state.events) {
+      return this.setState({ events: this.props.calandar.allevents });
+    }
+  };
   hideModals = () => {
     this.setState({
       showAddModal: false,
