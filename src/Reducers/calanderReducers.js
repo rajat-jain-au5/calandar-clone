@@ -20,7 +20,7 @@ export default function (state = intialState, action) {
       stateCopy.allevents = stateCopy.allevents.filter(
         (el) => el._id !== action.payload.data
       );
-      // stateCopy.redirect = true;
+      stateCopy.redirect = true;
       console.log(stateCopy);
       return stateCopy;
 
